@@ -1,0 +1,75 @@
+{
+  "docstring": "This data model describes a chemical process including information about chemical entities as well as their relationship to methods.",
+  "Report": {
+    "attributes": {
+      "reagents": {
+        "multiple": "True",
+        "description": "List of reagents that were used in the experiment"
+      },
+      "reactants": {
+        "multiple": "True",
+        "description": "List of reactants that were used in the experiment"
+      },
+      "measurements": {
+        "multiple": "True",
+        "description": "All measurements that were conducted in an experiment"
+      },
+      "methods": {
+        "multiple": "True",
+        "description": "Methods that were used in this experiment"
+      }
+    },
+    "docstring": "Reports on a chemical experiment, that includes Reactants and Reactants as well as the method. The Data model will natively be exported to the AnIML data format used to track data from analytical instruments.\n"
+  },
+  "Molecule": {
+    "attributes": {
+      "id": {
+        "description": "Unique identifier for a molecule/stock"
+      },
+      "inchi": {
+        "description": "InChI code that uniquely identifies the structure of a molecule"
+      },
+      "cas_number": {
+        "description": "A CAS Registry Number also referred to as CAS RN or informally CAS Number, is a unique numerical identifier assigned by the Chemical Abstracts Service (CAS), US to every chemical substance described in the open scientific literature."
+      },
+      "used_mass": {
+        "description": "Mass that was weighed in and used in the experiment."
+      }
+    },
+    "docstring": "Describes a molecule according to the PDF\n"
+  },
+  "Measurement": {
+    "attributes": {
+      "entry_id": {
+        "description": "Unique identifier of the measurement"
+      },
+      "product_yield": {
+        "description": "Documented yield in mg"
+      }
+    },
+    "docstring": "Describes a measurement that was made in a chemical experiment.\n"
+  },
+  "Method": {
+    "attributes": {
+      "name": {
+        "description": "Name of the method (e.g. Preparation)"
+      },
+      "steps": {
+        "multiple": "True",
+        "description": "Steps that make up the procedure"
+      },
+      "reference": {
+        "description": "Reference to the original publication from which the method was adapted from."
+      }
+    },
+    "docstring": "Describes a workflow that was done for a particular part of the experiment or the complete\n"
+  },
+  "Step": {
+    "attributes": {
+      "description": {
+        "description": "Free text description of the step"
+      }
+    },
+    "docstring": "Describes a part of a workflow that includes free text description as well as parameters that were"
+  }
+}
