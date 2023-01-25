@@ -17,7 +17,7 @@ Defines a COF preparation by the products, reactants, reagents, and solvents use
   - Type: Compound
   - Multiple: True
   - Description: List of reactants that were used in the COF preparation
-- __reactants__
+- __reagents__
   - Type: Compound
   - Multiple: True
   - Description: List of reagents that were used in the COF preparation
