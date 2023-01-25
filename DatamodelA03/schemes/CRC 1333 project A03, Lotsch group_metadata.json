@@ -13,6 +13,10 @@
       },
       "reactants": {
         "multiple": "True",
+        "description": "List of reactants that were used in the COF preparation"
+      },
+      "reagents": {
+        "multiple": "True",
         "description": "List of reagents that were used in the COF preparation"
       },
       "solvents": {

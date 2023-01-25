@@ -13,7 +13,7 @@ classDiagram
         +string id*
         +Compound[0..*] products
         +Compound[0..*] reactants
-        +Compound[0..*] reactants
+        +Compound[0..*] reagents
         +Compound[0..*] solvents
         +Procedure[0..*] procedures
         +string observations

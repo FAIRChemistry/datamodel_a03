@@ -30,5 +30,5 @@ class Step(sdRDM.DataModel):
     )
 
     __commit__: Optional[str] = PrivateAttr(
-        default="e6210b0bb348d4e702c45e110ebed1af95ca0423"
+        default="fc9cdaaabba4884d1a0e974a7c6579f3a74a8252"
     )

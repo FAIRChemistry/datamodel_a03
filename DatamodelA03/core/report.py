@@ -30,11 +30,6 @@ class Report(sdRDM.DataModel):
         default_factory=ListPlus,
     )
 
-    reactants: List[Compound] = Field(
-        description="List of reagents that were used in the COF preparation",
-        default_factory=ListPlus,
-    )
-
     solvents: List[Compound] = Field(
         description="List of solvents that were used in the COF preparation",
         default_factory=ListPlus,
@@ -55,12 +50,22 @@ class Report(sdRDM.DataModel):
         default_factory=ListPlus,
     )
 
+    reactants: List[Compound] = Field(
+        description="List of reactants that were used in the COF preparation",
+        default_factory=ListPlus,
+    )
+
+    reagents: List[Compound] = Field(
+        description="List of reagents that were used in the COF preparation",
+        default_factory=ListPlus,
+    )
+
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/FAIRChemistry/datamodel_a03.git"
     )
 
     __commit__: Optional[str] = PrivateAttr(
-        default="e6210b0bb348d4e702c45e110ebed1af95ca0423"
+        default="fc9cdaaabba4884d1a0e974a7c6579f3a74a8252"
     )
 
     def add_to_products(
@@ -162,6 +167,56 @@ class Report(sdRDM.DataModel):
             params["id"] = id
         reactants = [Compound(**params)]
         self.reactants = self.reactants + reactants
+
+    def add_to_reagents(
+        self,
+        name: str,
+        inchi: Optional[str] = None,
+        cas_number: Optional[str] = None,
+        quantity: Optional[str] = None,
+        amount: Optional[PositiveFloat] = None,
+        unit: Optional[str] = None,
+        id: Optional[str] = None,
+    ) -> None:
+        """
+        Adds an instance of 'Compound' to the attribute 'reagents'.
+
+        Args:
+
+
+            id (str): Unique identifier of the 'Compound' object. Defaults to 'None'.
+
+
+            name (str): Descriptive name of the compound.
+
+
+            inchi (Optional[str]): InChI code that uniquely identifies the structure of a molecule. Defaults to None
+
+
+            cas_number (Optional[str]): A CAS Registry Number also referred to as CAS RN or informally CAS Number, is a unique numerical identifier assigned by the Chemical Abstracts Service (CAS), US to every chemical substance described in the open scientific literature. Defaults to None
+
+
+            quantity (Optional[str]): Quantity of compound (N, m, V, ..). Defaults to None
+
+
+            amount (Optional[PositiveFloat]): Amount of the quantity of compound (numerical value). Defaults to None
+
+
+            unit (Optional[str]): Unit of the quantity of compound (SI unit). Defaults to None
+        """
+
+        params = {
+            "name": name,
+            "inchi": inchi,
+            "cas_number": cas_number,
+            "quantity": quantity,
+            "amount": amount,
+            "unit": unit,
+        }
+        if id is not None:
+            params["id"] = id
+        reagents = [Compound(**params)]
+        self.reagents = self.reagents + reagents
 
     def add_to_solvents(
         self,
@@ -266,7 +321,7 @@ class Report(sdRDM.DataModel):
         if id is not None:
             params["id"] = id
         analyses = [Analysis(**params)]
-        self.analyses = self.analyses + analyse
+        self.analyses = self.analyses + analyses
 
 
 s

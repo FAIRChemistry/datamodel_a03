@@ -1,18 +1,16 @@
 import sdRDM
 
 from typing import Optional, Union
+from typing import Optional
 from pydantic import PrivateAttr
+from pydantic import Field
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-
-from pydantic import Field
 from pydantic.types import PositiveFloat
-from typing import Optional
 
 
 @forge_signature
 class Compound(sdRDM.DataModel):
-
     """Describes a chemical compound. Preliminary specification according to the example PDF provided.
     """
 
@@ -21,14 +19,11 @@ class Compound(sdRDM.DataModel):
         default_factory=IDGenerator("compoundINDEX"),
         xml="@id",
     )
-    name: str = Field(
-        ...,
-        description="Descriptive name of the compound",
-    )
+
+    name: str = Field(..., description="Descriptive name of the compound")
 
     quantity: Optional[str] = Field(
-        description="Quantity of compound (N, m, V, ...)",
-        default=None,
+        description="Quantity of compound (N, m, V, ...)", default=None
     )
 
     inchi: Optional[str] = Field(
@@ -47,18 +42,17 @@ class Compound(sdRDM.DataModel):
     )
 
     amount: Optional[PositiveFloat] = Field(
-        description="Amount of the quantity of compound (numerical value)",
-        default=None,
+        description="Amount of the quantity of compound (numerical value)", default=None
     )
 
     unit: Optional[str] = Field(
-        description="Unit of the quantity of compound (SI unit)",
-        default=None,
+        description="Unit of the quantity of compound (SI unit)", default=None
     )
 
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/FAIRChemistry/datamodel_a03.git"
     )
+
     __commit__: Optional[str] = PrivateAttr(
-        default="e6210b0bb348d4e702c45e110ebed1af95ca0423"
+        default="fc9cdaaabba4884d1a0e974a7c6579f3a74a8252"
     )
