@@ -1,15 +1,15 @@
-from .measurement import Measurement
-from .method import Method
-from .molecule import Molecule
+from .analysis import Analysis
+from .compound import Compound
+from .procedure import Procedure
 from .report import Report
 from .step import Step
 
-__doc__ = "This data model describes a chemical process including information about chemical entities as well as their relationship to methods."
+__doc__ = "This data model describes a COF preparation including information about chemical entities and the experimental procedure. Preliminary specifications according to the example PDF provided."
 
 __all__ = [
-    "Measurement",
-    "Method",
-    "Molecule",
+    "Analysis",
+    "Compound",
+    "Procedure",
     "Report",
     "Step",
 ]

@@ -1,0 +1,105 @@
+{
+  "docstring": "This data model describes a COF preparation including information about chemical entities and the experimental procedure. Preliminary specifications according to the example PDF provided.",
+  "enums": [],
+  "external": {},
+  "Report": {
+    "attributes": {
+      "id": {
+        "description": "Unique identifier for the report"
+      },
+      "products": {
+        "multiple": "True",
+        "description": "List of products resulting from the COF preparation"
+      },
+      "reactants": {
+        "multiple": "True",
+        "description": "List of reagents that were used in the COF preparation"
+      },
+      "solvents": {
+        "multiple": "True",
+        "description": "List of solvents that were used in the COF preparation"
+      },
+      "procedures": {
+        "multiple": "True",
+        "description": "List of procedures that were applied to the COF preparation"
+      },
+      "observations": {
+        "description": "Free text for noting observations during the COF preparation"
+      },
+      "analyses": {
+        "multiple": "True",
+        "description": "Analyses that were performed for the COF preparation"
+      }
+    },
+    "docstring": "Defines a COF preparation by the products, reactants, reagents, and solvents used, as well as the experimental procedure itself. Preliminary specification according to the example PDF provided.\n"
+  },
+  "Compound": {
+    "attributes": {
+      "id": {
+        "description": "Unique identifier for the compound"
+      },
+      "name": {
+        "description": "Descriptive name of the compound"
+      },
+      "inchi": {
+        "description": "InChI code that uniquely identifies the structure of a molecule"
+      },
+      "cas_number": {
+        "description": "A CAS Registry Number also referred to as CAS RN or informally CAS Number, is a unique numerical identifier assigned by the Chemical Abstracts Service (CAS), US to every chemical substance described in the open scientific literature."
+      },
+      "quantity": {
+        "description": "Quantity of compound (N, m, V, ...)"
+      },
+      "amount": {
+        "description": "Amount of the quantity of compound (numerical value)"
+      },
+      "unit": {
+        "description": "Unit of the quantity of compound (SI unit)"
+      }
+    },
+    "docstring": "Describes a chemical compound. Preliminary specification according to the example PDF provided.\n"
+  },
+  "Procedure": {
+    "attributes": {
+      "id": {
+        "description": "Unique identifier for the procedure"
+      },
+      "name": {
+        "description": "Descriptive name of the method (e.g. work-up)"
+      },
+      "steps": {
+        "multiple": "True",
+        "description": "Independent steps that make up the procedure"
+      },
+      "reference": {
+        "description": "Reference to the original publication from which the method was adapted from."
+      }
+    },
+    "docstring": "Describes a procedure that was applied for a particular part of the COF preparation or the preparation as whole. Preliminary specification according to the example PDF provided.\n"
+  },
+  "Step": {
+    "attributes": {
+      "description": {
+        "description": "Free text description of the step"
+      },
+      "analysis": {
+        "description": "Analysis performed in the step"
+      }
+    },
+    "docstring": "Describes a part of a procedure through free text and optionally an associated analysis. Preliminary specification according to the example PDF provided.\n"
+  },
+  "Analysis": {
+    "attributes": {
+      "id": {
+        "description": "Unique identifier for the analysis"
+      },
+      "name": {
+        "description": "Descriptive name of the analysis"
+      },
+      "location": {
+        "description": "Location were the results of the analysis can be retrieved"
+      }
+    },
+    "docstring": "Describes an anlysis that was performed for the COF preparation. Preliminary specification according to the example PDF provided."
+  }
+}

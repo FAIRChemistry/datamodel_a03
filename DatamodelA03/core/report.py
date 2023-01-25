@@ -1,142 +1,272 @@
 import sdRDM
 
-
 from typing import Optional
-from pydantic import PrivateAttr
-from sdRDM.base.listplus import ListPlus
-from pydantic import Field
-from pydantic.types import PositiveFloat
 from typing import List
-from typing import Optional
-from .measurement import Measurement
-from .method import Method
-from .molecule import Molecule
+from typing import Optional, Union
+from pydantic import PrivateAttr
+from pydantic import Field
+from sdRDM.base.listplus import ListPlus
+from pydantic.types import PositiveFloat
+from sdRDM.base.utils import forge_signature, IDGenerator
 from .positivefloat import PositiveFloat
 from .step import Step
+from .analysis import Analysis
+from .compound import Compound
+from .procedure import Procedure
 
 
 class Report(sdRDM.DataModel):
+    """Reports on a chemical experiment, that includes Reactants and Reactants as well as the method. The Data model will natively be exported to the AnIML data format used to track data from analytical instruments.
+    """
 
-    """Reports on a chemical experiment, that includes Reactants and Reactants as well as the method. The Data model will natively be exported to the AnIML data format used to track data from analytical instruments."""
+    id: str = Field(
+        description="Unique identifier of the given object.",
+        default_factory=IDGenerator("reportINDEX"),
+        xml="@id",
+    )
 
-    reagents: List[Molecule] = Field(
-        description="List of reagents that were used in the experiment",
+    products: List[Compound] = Field(
+        description="List of products resulting from the COF preparation",
         default_factory=ListPlus,
     )
 
-    reactants: List[Molecule] = Field(
-        description="List of reactants that were used in the experiment",
+    reactants: List[Compound] = Field(
+        description="List of reagents that were used in the COF preparation",
         default_factory=ListPlus,
     )
 
-    measurements: List[Measurement] = Field(
-        description="All measurements that were conducted in an experiment",
+    solvents: List[Compound] = Field(
+        description="List of solvents that were used in the COF preparation",
         default_factory=ListPlus,
     )
 
-    methods: List[Method] = Field(
-        description="Methods that were used in this experiment",
+    procedures: List[Procedure] = Field(
+        description="List of procedures that were applied to the COF preparation",
+        default_factory=ListPlus,
+    )
+
+    observations: Optional[str] = Field(
+        description="Free text for noting observations during the COF preparation",
+        default=None,
+    )
+
+    analyses: List[Analysis] = Field(
+        description="Analyses that were performed for the COF preparation",
         default_factory=ListPlus,
     )
 
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/FAIRChemistry/datamodel_a03.git"
     )
+
     __commit__: Optional[str] = PrivateAttr(
-        default="13944dc93cd3f3cd0ca43f90838c16476cc85df0"
+        default="e6210b0bb348d4e702c45e110ebed1af95ca0423"
     )
 
-    def add_to_reagents(
+    def add_to_products(
         self,
-        id: Optional[str] = None,
+        name: str,
         inchi: Optional[str] = None,
         cas_number: Optional[str] = None,
-        used_mass: Optional[PositiveFloat] = None,
+        quantity: Optional[str] = None,
+        amount: Optional[PositiveFloat] = None,
+        unit: Optional[str] = None,
+        id: Optional[str] = None,
     ) -> None:
         """
-        Adds an instance of 'Molecule' to the attribute 'reagents'.
+        Adds an instance of 'Compound' to the attribute 'products'.
 
         Args:
-            id (Optional[str]): Unique identifier for a molecule/stock. Defaults to None
+
+
+            id (str): Unique identifier of the 'Compound' object. Defaults to 'None'.
+
+
+            name (str): Descriptive name of the compound.
+
+
             inchi (Optional[str]): InChI code that uniquely identifies the structure of a molecule. Defaults to None
+
+
             cas_number (Optional[str]): A CAS Registry Number also referred to as CAS RN or informally CAS Number, is a unique numerical identifier assigned by the Chemical Abstracts Service (CAS), US to every chemical substance described in the open scientific literature. Defaults to None
-            used_mass (Optional[PositiveFloat]): Mass that was weighed in and used in the experiment. Defaults to None
+
+
+            quantity (Optional[str]): Quantity of compound (N, m, V, ..). Defaults to None
+
+
+            amount (Optional[PositiveFloat]): Amount of the quantity of compound (numerical value). Defaults to None
+
+
+            unit (Optional[str]): Unit of the quantity of compound (SI unit). Defaults to None
         """
 
-        self.reagents.append(
-            Molecule(
-                id=id,
-                inchi=inchi,
-                cas_number=cas_number,
-                used_mass=used_mass,
-            )
-        )
+        params = {
+            "name": name,
+            "inchi": inchi,
+            "cas_number": cas_number,
+            "quantity": quantity,
+            "amount": amount,
+            "unit": unit,
+        }
+        if id is not None:
+            params["id"] = id
+        products = [Compound(**params)]
+        self.products = self.products + products
 
     def add_to_reactants(
         self,
-        id: Optional[str] = None,
+        name: str,
         inchi: Optional[str] = None,
         cas_number: Optional[str] = None,
-        used_mass: Optional[PositiveFloat] = None,
+        quantity: Optional[str] = None,
+        amount: Optional[PositiveFloat] = None,
+        unit: Optional[str] = None,
+        id: Optional[str] = None,
     ) -> None:
         """
-        Adds an instance of 'Molecule' to the attribute 'reactants'.
+        Adds an instance of 'Compound' to the attribute 'reactants'.
 
         Args:
-            id (Optional[str]): Unique identifier for a molecule/stock. Defaults to None
+
+
+            id (str): Unique identifier of the 'Compound' object. Defaults to 'None'.
+
+
+            name (str): Descriptive name of the compound.
+
+
             inchi (Optional[str]): InChI code that uniquely identifies the structure of a molecule. Defaults to None
+
+
             cas_number (Optional[str]): A CAS Registry Number also referred to as CAS RN or informally CAS Number, is a unique numerical identifier assigned by the Chemical Abstracts Service (CAS), US to every chemical substance described in the open scientific literature. Defaults to None
-            used_mass (Optional[PositiveFloat]): Mass that was weighed in and used in the experiment. Defaults to None
+
+
+            quantity (Optional[str]): Quantity of compound (N, m, V, ..). Defaults to None
+
+
+            amount (Optional[PositiveFloat]): Amount of the quantity of compound (numerical value). Defaults to None
+
+
+            unit (Optional[str]): Unit of the quantity of compound (SI unit). Defaults to None
         """
 
-        self.reactants.append(
-            Molecule(
-                id=id,
-                inchi=inchi,
-                cas_number=cas_number,
-                used_mass=used_mass,
-            )
-        )
+        params = {
+            "name": name,
+            "inchi": inchi,
+            "cas_number": cas_number,
+            "quantity": quantity,
+            "amount": amount,
+            "unit": unit,
+        }
+        if id is not None:
+            params["id"] = id
+        reactants = [Compound(**params)]
+        self.reactants = self.reactants + reactants
 
-    def add_to_measurements(
+    def add_to_solvents(
         self,
-        entry_id: Optional[str] = None,
-        product_yield: Optional[PositiveFloat] = None,
+        name: str,
+        inchi: Optional[str] = None,
+        cas_number: Optional[str] = None,
+        quantity: Optional[str] = None,
+        amount: Optional[PositiveFloat] = None,
+        unit: Optional[str] = None,
+        id: Optional[str] = None,
     ) -> None:
         """
-        Adds an instance of 'Measurement' to the attribute 'measurements'.
+        Adds an instance of 'Compound' to the attribute 'solvents'.
 
         Args:
-            entry_id (Optional[str]): Unique identifier of the measurement. Defaults to None
-            product_yield (Optional[PositiveFloat]): Documented yield in mg. Defaults to None
+
+
+            id (str): Unique identifier of the 'Compound' object. Defaults to 'None'.
+
+
+            name (str): Descriptive name of the compound.
+
+
+            inchi (Optional[str]): InChI code that uniquely identifies the structure of a molecule. Defaults to None
+
+
+            cas_number (Optional[str]): A CAS Registry Number also referred to as CAS RN or informally CAS Number, is a unique numerical identifier assigned by the Chemical Abstracts Service (CAS), US to every chemical substance described in the open scientific literature. Defaults to None
+
+
+            quantity (Optional[str]): Quantity of compound (N, m, V, ..). Defaults to None
+
+
+            amount (Optional[PositiveFloat]): Amount of the quantity of compound (numerical value). Defaults to None
+
+
+            unit (Optional[str]): Unit of the quantity of compound (SI unit). Defaults to None
         """
 
-        self.measurements.append(
-            Measurement(
-                entry_id=entry_id,
-                product_yield=product_yield,
-            )
-        )
+        params = {
+            "name": name,
+            "inchi": inchi,
+            "cas_number": cas_number,
+            "quantity": quantity,
+            "amount": amount,
+            "unit": unit,
+        }
+        if id is not None:
+            params["id"] = id
+        solvents = [Compound(**params)]
+        self.solvents = self.solvents + solvents
 
-    def add_to_methods(
+    def add_to_procedures(
         self,
-        steps: List[Step] = ListPlus(),
-        name: Optional[str] = None,
+        name: str,
+        steps: List[Step],
         reference: Optional[str] = None,
+        id: Optional[str] = None,
     ) -> None:
         """
-        Adds an instance of 'Method' to the attribute 'methods'.
+        Adds an instance of 'Procedure' to the attribute 'procedures'.
 
         Args:
-            steps (List[Step]): Steps that make up the procedure.
-            name (Optional[str]): Name of the method (e.g. Preparation). Defaults to None
+
+
+            id (str): Unique identifier of the 'Procedure' object. Defaults to 'None'.
+
+
+            name (str): Descriptive name of the method (e.g. work-up).
+
+
+            steps (List[Step]): Independent steps that make up the procedure.
+
+
             reference (Optional[str]): Reference to the original publication from which the method was adapted from. Defaults to None
         """
 
-        self.methods.append(
-            Method(
-                steps=steps,
-                name=name,
-                reference=reference,
-            )
-        )
+        params = {"name": name, "steps": steps, "reference": reference}
+        if id is not None:
+            params["id"] = id
+        procedures = [Procedure(**params)]
+        self.procedures = self.procedures + procedures
+
+    def add_to_analyses(
+        self, name: str, location: str, id: Optional[str] = None
+    ) -> None:
+        """
+        Adds an instance of 'Analysis' to the attribute 'analyses'.
+
+        Args:
+
+
+            id (str): Unique identifier of the 'Analysis' object. Defaults to 'None'.
+
+
+            name (str): Descriptive name of the analysis.
+
+
+            location (str): Location were the results of the analysis can be retrieved.
+        """
+
+        params = {"name": name, "location": location}
+        if id is not None:
+            params["id"] = id
+        analyses = [Analysis(**params)]
+        self.analyses = self.analyses + analyse
+
+
+s
